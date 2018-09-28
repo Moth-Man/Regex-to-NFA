@@ -58,7 +58,8 @@ public class NFA {
 		for(int i = 0; i < length; i++){
 			char c = regex.charAt(i);
 			if(c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e'){
-				NFA nFAc = createCharNFA(c);
+				
+				NFA nFAc = createCharNFA();
 				stack.push(nFAc);
 			}
 			else if(c == '&'){
@@ -79,7 +80,9 @@ public class NFA {
 	}
 	
 	public NFA createCharNFA(char c){
-		NFA charNFA = new NFA("q1", "q2", 2, c);
+		char[] ch = new char[1];
+		ch[0] = c;
+		NFA charNFA = new NFA("q1", "q2", 2, ch[]);
 		return charNFA;
 	}
 	
