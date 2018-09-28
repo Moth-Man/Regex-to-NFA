@@ -62,6 +62,14 @@ public class NFA {
 		this.states = states;
 	}
 	
+	public char[] getLinks() {
+		return links;
+	}
+	
+	public void setLinks(char[] links){
+		this.links = links;
+	}
+	
 	
 	public String[] stateGenerator(NFA nfa){
 		int stNum = nfa.getNumStates();
@@ -117,7 +125,8 @@ public class NFA {
 	}
 	
 	public NFA createConcateNFA(NFA nFA1, NFA nFA2){
-		
+		int nFA3numStates = nFA1.getNumStates() + nFA2.getNumStates();
+		char[] nFA1States = nFA1.getStates();
 	}
 	
 	public NFA createKleeneNFA(NFA nFA){
