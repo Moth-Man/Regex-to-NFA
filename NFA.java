@@ -1,4 +1,4 @@
-
+import org.apache.commons.lang3.ArrayUtils;
 
 public class NFA {
 
@@ -126,7 +126,15 @@ public class NFA {
 	
 	public NFA createConcateNFA(NFA nFA1, NFA nFA2){
 		int nFA3numStates = nFA1.getNumStates() + nFA2.getNumStates();
-		char[] nFA1States = nFA1.getStates();
+		char[] emptySet = {'E'};
+		char[] temp = (char[])ArrayUtils.addAll(nFA1.getLinks(), emptySet);
+		char[] nFA3Links = (char[])ArrayUtils.addAll(temp, nFA2.getLinks());
+		
+		NFA nFA3 = new NFA(nFA3numStates, nFA3Links);
+		nFA3.setStartState(nFA1.getStartState());
+		nFA3.setEndState(nFA2.getEndState());
+		return nFA3;
+		
 	}
 	
 	public NFA createKleeneNFA(NFA nFA){
