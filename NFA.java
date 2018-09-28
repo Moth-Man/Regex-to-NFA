@@ -10,7 +10,7 @@ public class NFA {
 	private TransitionFunction tranFunc;
 	private NFAStack stack = new NFAStack(1000);
 	
-	public NFA(String startState, String endState, int numStates, char[] link){
+	public NFA(int numStates, char[] link){
 		this.startState = startState;
 		this.endState = endState;
 		this.numStates = numStates;
@@ -65,13 +65,12 @@ public class NFA {
 	
 	public String[] stateGenerator(NFA nfa){
 		int stNum = nfa.getNumStates();
+		String[] st8 = new String[stNum];
+		nfa.setStates(st8);
 		for(int i = 0; i < stNum; i++){
-			String intStr = Integer.toString(i);
-			String q = "q";
-			String st = q + intStr;
-			String[] st8 = nfa.getStates();
-			st8[i] = st;
-			System.out.println(st);
+			String str = "q" + Integer.toString(i);
+			st8[i] = str;
+			System.out.println(str);
 		}
 		return states;
 	}
@@ -87,12 +86,12 @@ public class NFA {
 			else if(c == '&'){
 				NFA nFA2 = stack.pop();
 				NFA nFA1 = stack.pop();
-				stack.push(createConcatNFA(nFA2,nFA1));
+				stack.push(createConcateNFA(nFA2,nFA1));
 			}
 			else if(c == '|'){
 				NFA nFA2 = stack.pop();
 				NFA nFA1 = stack.pop();
-				stack.push(createConcatNFA(nFA1, nFA2));
+				stack.push(createUnionNFA(nFA1, nFA2));
 			}
 			else if(c == '*'){
 				NFA nFA = stack.pop();
@@ -104,7 +103,12 @@ public class NFA {
 	public NFA createCharNFA(char c){
 		char[] ch = new char[1];
 		ch[0] = c;
-		NFA charNFA = new NFA("q1", "q2", 2, ch);
+		NFA charNFA = new NFA(2, ch);
+		String[] st8 = charNFA.stateGenerator(charNFA);
+		charNFA.setStartState(st8[0]);
+		charNFA.setEndState(st8[st8.length-1]);
+		System.out.println(charNFA.getStartState() + charNFA.getEndState());
+		
 		return charNFA;
 	}
 	
@@ -112,7 +116,7 @@ public class NFA {
 		NFA unionNFA = new NFA();
 	}
 	
-	public NFA createConcatNFA(NFA nFA1, NFA nFA2){
+	public NFA createConcateNFA(NFA nFA1, NFA nFA2){
 		
 	}
 	

@@ -17,7 +17,8 @@ public class RegExCompiler {
 	//Test compiler
 	public static void main(String args[]) {
 		char[] ch = new char[3];
-		NFA nfa = new NFA("Q1", "Q2", 3, ch);
+		NFA nfa = new NFA(5, ch);
 		nfa.stateGenerator(nfa);
+		nfa.createCharNFA('a');
 	}
 }
