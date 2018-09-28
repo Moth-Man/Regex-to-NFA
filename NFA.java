@@ -5,15 +5,16 @@ public class NFA {
 	private String startState;
 	private String endState;
 	private int numStates;
-	private char link;
+	private char[] link;
 	private TransitionFunction tranFunc;
-	private NFAStack stack;
+	private NFAStack stack = new NFAStack(1000);
 	
-	public NFA(String startState, String endState, int numStates, char link){
+	public NFA(String startState, String endState, int numStates, char[] link){
 		this.startState = startState;
 		this.endState = endState;
 		this.numStates = numStates;
 		this.link = link;
+		this.stack = stack;
 		//this.tranFunc = tranFunc;
 		
 	}
@@ -61,10 +62,18 @@ public class NFA {
 				stack.push(nFAc);
 			}
 			else if(c == '&'){
-				nFA2 = pop();
-				nFA1 = pop();
-				createConcatNFA(nFA2,nFA1);
-				push()
+				NFA nFA2 = stack.pop();
+				NFA nFA1 = stack.pop();
+				stack.push(createConcatNFA(nFA2,nFA1));
+			}
+			else if(c == '|'){
+				NFA nFA2 = stack.pop();
+				NFA nFA1 = stack.pop();
+				stack.push(createConcatNFA(nFA1, nFA2));
+			}
+			else if(c == '*'){
+				NFA nFA = stack.pop();
+				stack.push(createKleeneNFA(nFA));
 			}
 		}
 	}
@@ -74,15 +83,15 @@ public class NFA {
 		return charNFA;
 	}
 	
-	public void createUnionNFA(){
+	public NFA createUnionNFA(){
 		
 	}
 	
 	public NFA createConcatNFA(NFA nFA1, NFA nFA2){
-		concatNFA = new NFA();
+		
 	}
 	
-	public void createKleeneNFA(){
+	public NFA createKleeneNFA(NFA nFA){
 		
 	}
 }

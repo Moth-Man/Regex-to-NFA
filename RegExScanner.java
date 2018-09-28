@@ -10,9 +10,8 @@ import java.util.ArrayList;
 
 public class RegExScanner {
 	
-	//private ArrayList<String> theList;
-
-	public ArrayList<String> scanRegs(File file){
+	//Takes in file of regex and saves each line to an arrayList of strings.
+	public ArrayList<String> scanRegexFile(File file){
 		ArrayList<String> list = new ArrayList<String>();
 		
 		try {
@@ -40,9 +39,4 @@ public class RegExScanner {
 		}
 		return list;
 	}
-	
-	public scanRegLine(ArrayList<String> regList){
-		
-	}
-	
 }

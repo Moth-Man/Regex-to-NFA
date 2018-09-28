@@ -13,7 +13,6 @@ public class NFAStack {
 	}
 	
 	public boolean empty(){
-		
 		if(top == 0){
 			return true;
 		}
