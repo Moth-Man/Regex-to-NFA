@@ -8,8 +8,7 @@ public class NFAStack {
 	public NFAStack(int n) {
 		maxSize = n;
 		NFAarray = new NFA[maxSize];
-		top = 0;
-		
+		top = 0;	
 	}
 	
 	public boolean empty(){
@@ -41,7 +40,6 @@ public class NFAStack {
 		else {
 			return null;
 		}
-		
 	}
 	
 	public NFA peek(){

@@ -6,7 +6,7 @@ public class NFA {
 	private String endState;
 	private int numStates;
 	private char[] links;
-	private String[] states;
+	private String[] states = new String[numStates];
 	private TransitionFunction tranFunc;
 	private NFAStack stack = new NFAStack(1000);
 	
@@ -54,10 +54,24 @@ public class NFA {
 		this.tranFunc = tranFunc;
 	}
 	
+	public String[] getStates() {
+		return states;
+	}
+	
+	public void setStates(String[] states){
+		this.states = states;
+	}
+	
+	
 	public String[] stateGenerator(NFA nfa){
 		int stNum = nfa.getNumStates();
 		for(int i = 0; i < stNum; i++){
-			states[i] = "q" + i;
+			String intStr = Integer.toString(i);
+			String q = "q";
+			String st = q + intStr;
+			String[] st8 = nfa.getStates();
+			st8[i] = st;
+			System.out.println(st);
 		}
 		return states;
 	}
