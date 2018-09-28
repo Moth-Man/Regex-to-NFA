@@ -10,7 +10,7 @@ public class NFA {
 	private TransitionFunction tranFunc;
 	private NFAStack stack = new NFAStack(1000);
 	
-	public NFA(int numStates, char[] link){
+	public NFA(int numStates, char[] links){
 		this.startState = startState;
 		this.endState = endState;
 		this.numStates = numStates;
@@ -94,7 +94,7 @@ public class NFA {
 			else if(c == '&'){
 				NFA nFA2 = stack.pop();
 				NFA nFA1 = stack.pop();
-				stack.push(createConcateNFA(nFA2,nFA1));
+				stack.push(createConcatNFA(nFA1,nFA2));
 			}
 			else if(c == '|'){
 				NFA nFA2 = stack.pop();
@@ -106,6 +106,9 @@ public class NFA {
 				stack.push(createKleeneNFA(nFA));
 			}
 		}
+		NFA finalNFA = stack.pop();
+		System.out.println(regex);
+		tranFunc.generateTransitionFunction(finalNFA);
 	}
 	
 	public NFA createCharNFA(char c){
@@ -116,23 +119,26 @@ public class NFA {
 		charNFA.setStartState(st8[0]);
 		charNFA.setEndState(st8[st8.length-1]);
 		System.out.println(charNFA.getStartState() + charNFA.getEndState());
+		System.out.println("(" + charNFA.getStartState() + "," + c + ") --> " + charNFA.getEndState());
 		
 		return charNFA;
 	}
 	
 	public NFA createUnionNFA(NFA nFA1, NFA nFA2){
+		
 		NFA unionNFA = new NFA();
 	}
 	
-	public NFA createConcateNFA(NFA nFA1, NFA nFA2){
+	public NFA createConcatNFA(NFA nFA1, NFA nFA2){
 		int nFA3numStates = nFA1.getNumStates() + nFA2.getNumStates();
 		char[] emptySet = {'E'};
 		char[] temp = (char[])ArrayUtils.addAll(nFA1.getLinks(), emptySet);
 		char[] nFA3Links = (char[])ArrayUtils.addAll(temp, nFA2.getLinks());
 		
 		NFA nFA3 = new NFA(nFA3numStates, nFA3Links);
-		nFA3.setStartState(nFA1.getStartState());
-		nFA3.setEndState(nFA2.getEndState());
+		String[] st8 = nFA3.stateGenerator(nFA3);
+		nFA3.setStartState(st8[0]);
+		nFA3.setEndState(st8[st8.length-1]);
 		return nFA3;
 		
 	}

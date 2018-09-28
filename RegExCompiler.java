@@ -7,9 +7,17 @@ public class RegExCompiler {
 	public static void main(String args[]){
 		if(args.length > 0){
 			File file =  new File(args[0]);
+			char[] ch = new char[0];
+			//Dummy NFA object to activate analyzeNFA method
+			NFA nfa = new NFA(0, ch);
 			RegExScanner scan = new RegExScanner();
-			ArrayList<String> regEx = scan.scanRegexFile(file);
+			ArrayList<String> regExList = scan.scanRegexFile(file);
+			for(String regex: regExList){
+				nfa.analyzeNFA(regex);
+			}
 		}
+		else {
+		System.out.print("ERRROR: No regex file recovered.");
 	}
 	
 	*/
@@ -21,4 +29,6 @@ public class RegExCompiler {
 		nfa.stateGenerator(nfa);
 		nfa.createCharNFA('a');
 	}
-}
+	
+	}
+//}
