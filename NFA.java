@@ -6,7 +6,7 @@ public class NFA {
 	private String endState;
 	private int numStates;
 	private char[] links;
-	private String[] states = new String[numStates];
+	private State[] states = new String[numStates];
 	private TransitionFunction tranFunc;
 	private NFAStack stack = new NFAStack(1000);
 	
