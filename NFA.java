@@ -2,8 +2,8 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class NFA {
 
-	private String startState;
-	private String endState;
+	private int startState;
+	private int endState;
 	private int numStates;
 	private char[] links;
 	private int[] states = new int[numStates];
@@ -22,19 +22,19 @@ public class NFA {
 	}
 	
 	//Setters & Getters
-	public String getStartState() {
+	public int getStartState() {
 		return startState;
 	}
 
-	public void setStartState(String startState) {
+	public void setStartState(int startState) {
 		this.startState = startState;
 	}
 
-	public String getEndState() {
+	public int getEndState() {
 		return endState;
 	}
 
-	public void setEndState(String endState) {
+	public void setEndState(int endState) {
 		this.endState = endState;
 	}
 
@@ -116,12 +116,12 @@ public class NFA {
 		char[] ch = new char[1];
 		ch[0] = c;
 		NFA charNFA = new NFA(2, ch);
-		String[] st8 = charNFA.stateGenerator(charNFA);
+		int[] st8 = charNFA.stateGenerator(charNFA);
 		charNFA.setStartState(st8[0]);
 		charNFA.setEndState(st8[st8.length-1]);
 		
 		TransitionFunction tf = new TransitionFunction(charNFA.getNumStates());
-		tf.addEdge(st8[0], st8[], link);
+		tf.addEdge(st8[0], st8[st8.length-1], c);
 		//System.out.println(charNFA.getStartState() + charNFA.getEndState());
 		//System.out.println("(" + charNFA.getStartState() + "," + c + ") --> " + charNFA.getEndState());
 		
