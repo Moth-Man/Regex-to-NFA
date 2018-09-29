@@ -8,7 +8,7 @@ public class NFA {
 	private char[] links;
 	private int[] states = new int[numStates];
 	private TransitionFunction tranFunc;
-	private NFAStack stack = new NFAStack(1000);
+	public NFAStack stack = new NFAStack(1000);
 	
 	public NFA(int numStates, char[] links){
 		this.startState = startState;
@@ -105,6 +105,9 @@ public class NFA {
 				NFA nFA = stack.pop();
 				stack.push(createKleeneNFA(nFA));
 			}
+			else{
+				System.out.println("ERROR: Character of regex not recognized in Sigma-Alphabet.");
+			}
 		}
 		NFA finalNFA = stack.pop();
 		System.out.println(regex);
@@ -117,14 +120,15 @@ public class NFA {
 		ch[0] = c;
 		NFA charNFA = new NFA(2, ch);
 		int[] st8 = charNFA.stateGenerator(charNFA);
+		
 		charNFA.setStartState(st8[0]);
 		charNFA.setEndState(st8[st8.length-1]);
 		
 		TransitionFunction tf = new TransitionFunction(charNFA.getNumStates());
 		tf.addEdge(st8[0], st8[st8.length-1], c);
-		//System.out.println(charNFA.getStartState() + charNFA.getEndState());
-		//System.out.println("(" + charNFA.getStartState() + "," + c + ") --> " + charNFA.getEndState());
-		
+		charNFA.setTranFunc(tf);
+	
+		//tf.generateTransitionFunction();
 		return charNFA;
 	}
 	
@@ -140,9 +144,29 @@ public class NFA {
 		char[] nFA3Links = (char[])ArrayUtils.addAll(temp, nFA2.getLinks());
 		
 		NFA nFA3 = new NFA(nFA3numStates, nFA3Links);
-		String[] st8 = nFA3.stateGenerator(nFA3);
+		int[] st8 = nFA3.stateGenerator(nFA3);
 		nFA3.setStartState(st8[0]);
 		nFA3.setEndState(st8[st8.length-1]);
+		
+		TransitionFunction tf = new TransitionFunction(nFA3.getNumStates());
+		
+		for(int i = 0; i < nFA1.getNumStates(); i++){
+			if(i+1 <= nFA1.getNumStates()){
+				tf.addEdge(i, i+1, nFA3Links[i]);
+			}
+			else {
+				System.out.print("ERROR: createConcatNFA");
+			}
+		
+		}
+		
+		for(int j = nFA1.getNumStates(); j < nFA3numStates; j++){
+			if(j+1 < nFA3numStates){
+				tf.addEdge(j, j+1, nFA3Links[j]);
+			}
+		}
+		
+		nFA3.setTranFunc(tf);
 		return nFA3;
 		
 	}

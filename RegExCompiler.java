@@ -26,8 +26,9 @@ public class RegExCompiler {
 	public static void main(String args[]) {
 		char[] ch = new char[3];
 		NFA nfa = new NFA(5, ch);
-		nfa.stateGenerator(nfa);
-		nfa.createCharNFA('a');
+		//nfa.stateGenerator(nfa);
+		NFAStack stack = new NFAStack(1000);
+		nfa.analyzeNFA("ab&");
 	}
 	
 	}

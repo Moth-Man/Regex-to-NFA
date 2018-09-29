@@ -36,7 +36,7 @@ public class TransitionFunction {
 		for(int i = 0; i < stateNum; i++){
 			LinkedList<Edge> list = adjacencyList[i];
 			for(int j = 0; j < list.size(); j++){
-				System.out.println("(q" + i + ", " + list.get(j).link + ") --> " + list.get(j).destState );
+				System.out.println("(q" + i + ", " + list.get(j).link + ") --> q" + list.get(j).destState );
 			}
 		}
 	}
