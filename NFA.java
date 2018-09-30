@@ -126,17 +126,17 @@ public class NFA {
 		
 		TransitionFunction tf = new TransitionFunction(charNFA.getNumStates());
 		tf.addEdge(st8[0], st8[st8.length-1], c);
+		charNFA.setStartState(0);
+		charNFA.setEndState(charNFA.getNumStates()-1);
 		charNFA.setTranFunc(tf);
 	
-		//tf.generateTransitionFunction();
+		
 		return charNFA;
 	}
 	
 	public NFA createUnionNFA(NFA nFA1, NFA nFA2){
 		int nFA3numStates = nFA1.getNumStates() + nFA2.getNumStates() + 2;
 		char[] emptyPair = {'E', 'E'};
-		char[] temp = (char[])ArrayUtils.addAll(emptyPair, nFA1.getLinks());
-		char[] temp2 = (char[])ArrayUtils.addAll(temp, nFA2.getLinks());
 		char[] nFA3Links = (char[])ArrayUtils.addAll(nFA1.getLinks(), nFA2.getLinks());
 		
 		NFA nFA3 = new NFA(nFA3numStates, nFA3Links);
@@ -167,6 +167,8 @@ public class NFA {
 			//}
 		}
 		
+		nFA3.setStartState(0);
+		nFA3.setEndState(nFA3numStates-1);
 		nFA3.setTranFunc(tf);
 		return nFA3;
 	}
@@ -203,12 +205,23 @@ public class NFA {
 			//}
 		}
 		
+		nFA3.setStartState(0);
+		nFA3.setEndState(nFA3numStates-1);
 		nFA3.setTranFunc(tf);
 		return nFA3;
 		
 	}
 	
-	public NFA createKleeneNFA(NFA nFA){
+	public NFA createKleeneNFA(NFA nfa){
+		int start = nfa.getStartState();
 		
+		TransitionFunction tf = new TransitionFunction(nfa.getNumStates());
+		tf.addEdge(nfa.getNumStates(), start, 'E');
+		tf.addEdge(nfa.getEndState(), nfa.getNumStates(), 'E');
+		
+		nfa.setStartState(nfa.getNumStates());
+		nfa.setEndState(nfa.getNumStates());
+		nfa.setTranFunc(tf);
+		return nfa;
 	}
 }
