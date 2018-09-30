@@ -133,8 +133,41 @@ public class NFA {
 	}
 	
 	public NFA createUnionNFA(NFA nFA1, NFA nFA2){
+		int nFA3numStates = nFA1.getNumStates() + nFA2.getNumStates() + 2;
+		char[] emptyPair = {'E', 'E'};
+		char[] temp = (char[])ArrayUtils.addAll(emptyPair, nFA1.getLinks());
+		char[] temp2 = (char[])ArrayUtils.addAll(temp, nFA2.getLinks());
+		char[] nFA3Links = (char[])ArrayUtils.addAll(nFA1.getLinks(), nFA2.getLinks());
 		
-		NFA unionNFA = new NFA();
+		NFA nFA3 = new NFA(nFA3numStates, nFA3Links);
+		TransitionFunction tf = new TransitionFunction(nFA3.getNumStates());
+		
+		tf.addEdge(0, 1, 'E');
+		tf.addEdge(0, nFA1.getNumStates()+1, 'E');
+		tf.addEdge(nFA1.getNumStates(), nFA3.getNumStates(), 'E');
+		tf.addEdge(nFA3.getNumStates()-1, nFA3.getNumStates(), 'E');
+		
+		char[] nFA1Links = nFA1.getLinks();
+		for(int i = 1; i < nFA1.getNumStates()+1; i++){
+			if(i+11 <= nFA1.getEndState()){
+				tf.addEdge(i, i+1, nFA1Links[i-1]);
+			}
+			//else {
+			//	System.out.println("ERROR: createUnionNFA first for-loop.");
+			//}
+		}
+		
+		for(int j = nFA1.getNumStates()+1; j < nFA3numStates; j++){
+			if(j+1 < nFA3numStates){
+				tf.addEdge(j, j+1, nFA3Links[j-1]);
+			}
+			//else {
+			//	System.out.println("ERROR: createUnionNFA second for-loop.");
+			//}
+		}
+		
+		nFA3.setTranFunc(tf);
+		return nFA3;
 	}
 	
 	public NFA createConcatNFA(NFA nFA1, NFA nFA2){
@@ -154,9 +187,9 @@ public class NFA {
 			if(i+1 <= nFA1.getNumStates()){
 				tf.addEdge(i, i+1, nFA3Links[i]);
 			}
-			else {
-				System.out.print("ERROR: createConcatNFA");
-			}
+			//else {
+			//	System.out.println("ERROR: createConcatNFA first for-loop.");
+			//}
 		
 		}
 		
@@ -164,6 +197,9 @@ public class NFA {
 			if(j+1 < nFA3numStates){
 				tf.addEdge(j, j+1, nFA3Links[j]);
 			}
+			//else {
+			//	System.out.println("ERROR: createConcatNFA second for-loop");
+			//}
 		}
 		
 		nFA3.setTranFunc(tf);
