@@ -28,7 +28,7 @@ public class RegExCompiler {
 		NFA nfa = new NFA(5, ch);
 		//nfa.stateGenerator(nfa);
 		NFAStack stack = new NFAStack(1000);
-		nfa.analyzeNFA("aa&bb&|");
+		nfa.analyzeNFA("a*");
 	}
 	
 	}

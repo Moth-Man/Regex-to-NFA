@@ -214,10 +214,19 @@ public class NFA {
 	
 	public NFA createKleeneNFA(NFA nfa){
 		int start = nfa.getStartState();
+		nfa.setNumStates(nfa.getNumStates()+1);
 		
 		TransitionFunction tf = new TransitionFunction(nfa.getNumStates());
-		tf.addEdge(nfa.getNumStates(), start, 'E');
-		tf.addEdge(nfa.getEndState(), nfa.getNumStates(), 'E');
+		System.out.println(nfa.getNumStates());
+		System.out.println(start);
+		
+		char[] nfaLinks = nfa.getLinks();
+		for(int i = 0; i < nfa.getNumStates(); i++){
+			if(i+1 < nfa.getNumStates())
+				tf.addEdge(i, i+1, nfaLinks[i]);
+		}
+		tf.addEdge(nfa.getNumStates()-1, start, 'E');
+		tf.addEdge(nfa.getEndState(), nfa.getNumStates()-1, 'E');
 		
 		nfa.setStartState(nfa.getNumStates());
 		nfa.setEndState(nfa.getNumStates());
