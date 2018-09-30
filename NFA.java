@@ -144,22 +144,23 @@ public class NFA {
 		
 		tf.addEdge(0, 1, 'E');
 		tf.addEdge(0, nFA1.getNumStates()+1, 'E');
-		tf.addEdge(nFA1.getNumStates(), nFA3.getNumStates(), 'E');
-		tf.addEdge(nFA3.getNumStates()-1, nFA3.getNumStates(), 'E');
+		tf.addEdge(nFA1.getNumStates(), nFA3.getNumStates()-1, 'E');
+		tf.addEdge(nFA3.getNumStates()-2, nFA3.getNumStates()-1, 'E');
 		
 		char[] nFA1Links = nFA1.getLinks();
-		for(int i = 1; i < nFA1.getNumStates()+1; i++){
-			if(i+11 <= nFA1.getEndState()){
-				tf.addEdge(i, i+1, nFA1Links[i-1]);
+		for(int i = 1; i < nFA1.getNumStates(); i++){
+			if(i + 1 <= nFA1.getNumStates()){
+				tf.addEdge(i, i+1, nFA3Links[i-1]);
 			}
 			//else {
 			//	System.out.println("ERROR: createUnionNFA first for-loop.");
 			//}
 		}
 		
-		for(int j = nFA1.getNumStates()+1; j < nFA3numStates; j++){
-			if(j+1 < nFA3numStates){
-				tf.addEdge(j, j+1, nFA3Links[j-1]);
+		char[] nFA2Links = nFA2.getLinks();
+		for(int j = nFA1.getNumStates()+1, k = 0; j < nFA3numStates && k < nFA2Links.length; j++, k++){
+			if(j + 1 <= nFA3numStates){
+				tf.addEdge(j, j+1, nFA2Links[k]);
 			}
 			//else {
 			//	System.out.println("ERROR: createUnionNFA second for-loop.");
