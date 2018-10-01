@@ -213,24 +213,48 @@ public class NFA {
 	}
 	
 	public NFA createKleeneNFA(NFA nfa){
+		/*
 		int start = nfa.getStartState();
 		nfa.setNumStates(nfa.getNumStates()+1);
 		
-		TransitionFunction tf = new TransitionFunction(nfa.getNumStates());
+		//TransitionFunction tf = new TransitionFunction(nfa.getNumStates());
 		System.out.println(nfa.getNumStates());
 		System.out.println(start);
-		
+		/*
 		char[] nfaLinks = nfa.getLinks();
 		for(int i = 0; i < nfa.getNumStates(); i++){
 			if(i+1 < nfa.getNumStates())
 				tf.addEdge(i, i+1, nfaLinks[i]);
 		}
+		*/
+		/*
+		TransitionFunction tf = nfa.getTranFunc();
+		int source = nfa.getNumStates()-1;
+		System.out.println("start" + start);
+		System.out.println("source" + source);
 		tf.addEdge(nfa.getNumStates()-1, start, 'E');
-		tf.addEdge(nfa.getEndState(), nfa.getNumStates()-1, 'E');
+		//tf.addEdge(nfa.getEndState(), nfa.getNumStates()-1, 'E');
 		
-		nfa.setStartState(nfa.getNumStates());
-		nfa.setEndState(nfa.getNumStates());
-		nfa.setTranFunc(tf);
-		return nfa;
+		nfa.setStartState(nfa.getNumStates()-1);
+		nfa.setEndState(nfa.getNumStates()-1);
+		*/
+		int start = nfa.getStartState();
+		int end = nfa.getEndState();
+		TransitionFunction tf = new TransitionFunction(nfa.getNumStates()+1);
+		char[] links = nfa.getLinks();
+		NFA kleeneNFA = new NFA(nfa.getNumStates()+1, links);
+		
+		tf.addEdge(start, start+1, 'E');
+		tf.addEdge(end+1, start, 'E');
+		
+		for(int i = 1; i < kleeneNFA.getNumStates(); i++){
+			if(i+1 <= kleeneNFA.getNumStates()-1)
+				tf.addEdge(i, i+1, links[i-1]);
+		}
+		
+		kleeneNFA.setStartState(start);
+		kleeneNFA.setEndState(start);
+		kleeneNFA.setTranFunc(tf);
+		return kleeneNFA;
 	}
 }
