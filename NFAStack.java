@@ -49,6 +49,7 @@ public class NFAStack {
 		else {
 			return null;
 		}
+		
 	}
 	
 }

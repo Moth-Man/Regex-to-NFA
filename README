@@ -1,0 +1,28 @@
+Author(s): Nathan Wissner
+Email: nwissner@skidmore.edu
+
+Description: This Java Project converts regular expressions in the form of strings and outputs their states via 
+a transition function, modeled as a weighted-graph data structure.
+
+Build Info: Simply place a file of regexes into the java project, DO NOT place file in the src folder
+as the main method will not find it. Right-click the Java Project and create a txt file with regexes. Add this 
+file to the command line arguments (arg[0]) and run. Unfortunately kleeneStar does not work while 
+concatenated with other NFAs. It will only work with single variable regex. All other methods within the
+project work (union, concatenate etc.). Commons-lang3 library is a library included in the project folder
+that was used outside of Java. It is the only library needed. Sorry for the inconvenience. Just add the
+JAR file to the build path.
+
+Classes:
+RegExCompiler - houses the main method, creates NFA object that calls the analyzeNFA method, which
+takes in one string at a time from file to produce an NFA transition function
+
+RegExScanner - takes in a file and creates an arrayList where each element is a string from a line
+of the file
+
+NFAStack - creates a stack structure to house the NFAs
+
+NFA - object class that has start and end states, number of states, a transition function and a char
+array of links (letters from alphabet).
+
+TransitionFunction - object class that creates a directed weighted graph, where the weight is represented 
+as a char to symbolize a link from the sigma alphabet.

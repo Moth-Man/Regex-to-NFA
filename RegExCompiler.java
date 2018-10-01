@@ -3,7 +3,7 @@ import java.io.File;
 
 public class RegExCompiler {
 
-	/*
+	
 	public static void main(String args[]){
 		if(args.length > 0){
 			File file =  new File(args[0]);
@@ -17,10 +17,10 @@ public class RegExCompiler {
 			}
 		}
 		else {
-		System.out.print("ERRROR: No regex file recovered.");
+		System.out.println("ERRROR: No regex file recovered.");
 	}
 	
-	*/
+	/*
 	
 	//Test compiler
 	public static void main(String args[]) {
@@ -28,8 +28,9 @@ public class RegExCompiler {
 		NFA nfa = new NFA(5, ch);
 		//nfa.stateGenerator(nfa);
 		NFAStack stack = new NFAStack(1000);
-		nfa.analyzeNFA("a*b|");
+		nfa.analyzeNFA("a*");
 	}
+	*/
 	
 	}
-//}
+}
